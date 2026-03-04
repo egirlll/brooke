@@ -107,6 +107,73 @@
             box-shadow: 0 8px 24px rgba(212, 17, 89, 0.2);
         }
 
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(26, 26, 26, 0.95);
+            min-width: 100%;
+            box-shadow: 0 8px 24px rgba(212, 17, 89, 0.3);
+            padding: 12px 0;
+            z-index: 1;
+            border-radius: 8px;
+            border: 2px solid #d41159;
+            top: 100%;
+            margin-top: 4px;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .crypto-option {
+            color: #d41159;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(212, 17, 89, 0.2);
+        }
+
+        .crypto-option:last-child {
+            border-bottom: none;
+        }
+
+        .crypto-option:hover {
+            background-color: rgba(212, 17, 89, 0.15);
+        }
+
+        .crypto-address {
+            font-family: monospace;
+            font-size: 12px;
+            color: #fff;
+            margin-right: 8px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #d41159;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(212, 17, 89, 0.2);
+        }
+
         @media (max-width: 480px) {
             .profile h1 {
                 font-size: 28px;
@@ -130,7 +197,49 @@
         <div class="links">
             <a href="https://throne.com/brattybbrooke" class="link-btn">Throne</a>
             <a href="https://sent.bio/brattybrooke" class="link-btn secondary">sent.bio</a>
+            
+            <div class="dropdown">
+                <button class="link-btn" id="cryptoBtn">Crypto</button>
+                <div class="dropdown-content" id="cryptoDropdown">
+                    <div class="crypto-option" onclick="copyAddress('5CXkhpd1v2A7qxi1S7augNzSUdqzYH9RDfhXq9T5RXRW')">
+                        <span class="crypto-address">SOL: 5Cxkh...</span>
+                        <button class="copy-btn">copy</button>
+                    </div>
+                    <div class="crypto-option" onclick="copyAddress('bc1qwur8t4ha8tmz8zl2naawk3kjkh40hs93afsesy')">
+                        <span class="crypto-address">BTC: bc1qwu...</span>
+                        <button class="copy-btn">copy</button>
+                    </div>
+                    <div class="crypto-option" onclick="copyAddress('0xde1Ecd6b162c0b20DE2Adc421a12c6363027dD4F')">
+                        <span class="crypto-address">ETH: 0xde1E...</span>
+                        <button class="copy-btn">copy</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        const cryptoBtn = document.getElementById('cryptoBtn');
+        const cryptoDropdown = document.getElementById('cryptoDropdown');
+
+        cryptoBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            cryptoDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                cryptoDropdown.classList.remove('show');
+            }
+        });
+
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(function() {
+                alert('✓ Copied: ' + address.substring(0, 10) + '...');
+            }).catch(function(err) {
+                alert('Failed to copy');
+            });
+        }
+    </script>
 </body>
 </html>
